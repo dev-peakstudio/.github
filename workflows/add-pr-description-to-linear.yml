@@ -15,7 +15,7 @@ jobs:
         env:
           LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
         run: |
-          ISSUE_ID=$(echo "${{ github.event.pull_request.title }}" | grep -oE 'LIN-[0-9]+')
+          ISSUE_ID=$(echo "${{ github.event.pull_request.head.ref }}" | grep -oE 'LIN-[0-9]+')
           if [ -n "$ISSUE_ID" ]; then
             curl -X POST \
               -H "Content-Type: application/json" \
