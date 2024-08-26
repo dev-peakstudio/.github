@@ -5,9 +5,7 @@
 - [ ] Bug Fix
 - [ ] Optimization
 - [ ] Documentation Update
-
-## Description
-
+      
 ## QA Instructions, Screenshots, Recordings
 
 _Please replace this line with instructions on how to test your changes, a note
