@@ -1,10 +1,11 @@
 ## What type of PR is this? (check all applicable)
 
-- [ ] Refactor
-- [ ] Feature
-- [ ] Bug Fix
-- [ ] Optimization
-- [ ] Documentation Update
+- [ ] Feature 🆕 
+- [ ] BugFix 🐛
+- [ ] HotFix 🔥
+- [ ] Refactor 👷‍♀️
+- [ ] Optimization 👨‍💻
+- [ ] Documentation Update 📁
       
 ## QA Instructions, Screenshots, Recordings
 
