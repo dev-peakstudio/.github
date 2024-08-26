@@ -8,11 +8,6 @@
 
 ## Description
 
-## Related Tickets & Documents
-
-- Related Issue #
-- Closes #
-
 ## QA Instructions, Screenshots, Recordings
 
 _Please replace this line with instructions on how to test your changes, a note
