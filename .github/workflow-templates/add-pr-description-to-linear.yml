@@ -1,0 +1,47 @@
+name: Add PR Description to Linear Issue
+on:
+  pull_request:
+    types: [opened, edited]
+jobs:
+  add-pr-description:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Post PR Description to Linear
+        env:
+          LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
+        run: |
+          # Convert branch name to uppercase
+          UPPERCASE_BRANCH_NAME=$(echo "${{ github.event.pull_request.head.ref }}" | tr '[:lower:]' '[:upper:]')
+          # Log the uppercase branch name
+          echo "Uppercase Branch Name: $UPPERCASE_BRANCH_NAME"
+          # Extract the issue ID from the uppercase branch name
+          ISSUE_ID=$(echo "$UPPERCASE_BRANCH_NAME" | grep -oE 'DEV-[0-9]+')
+          # Log the issue ID to ensure it was extracted correctly
+          echo "Extracted Issue ID: $ISSUE_ID"
+          
+          # Properly escape the PR body for JSON
+          FORMATTED_BODY=$(printf '%s' "${{ github.event.pull_request.body }}" | sed 's/"/\\"/g' | jq -Rs . | sed 's/\\\\/\\/g')
+          # Log the formatted body to ensure it was processed correctly
+          echo "Formatted PR Body: $FORMATTED_BODY"
+          
+          if [ -n "$ISSUE_ID" ]; then
+            echo "Making API call to Linear with Issue ID: $ISSUE_ID"
+            
+            JSON_PAYLOAD=$(jq -n --arg issueId "\"$ISSUE_ID\"" --arg body "$FORMATTED_BODY" \
+              '{ query: "mutation { commentCreate(input: { issueId: \($issueId), body: \($body) }) { success comment { id createdAt body } } }" }')
+
+            echo "JSON Payload: $JSON_PAYLOAD"
+            
+            curl -X POST \
+              -H "Content-Type: application/json" \
+              -H "Authorization: $LINEAR_API_KEY" \
+              -H "public-file-urls-expire-in: 60" \
+              --data "$JSON_PAYLOAD" \
+              https://api.linear.app/graphql
+          else
+            echo "No valid Issue ID found in branch name."
+            exit 1
+          fi
