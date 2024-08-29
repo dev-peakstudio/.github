@@ -1,5 +1,6 @@
 {
     "name": "Add PR Description to Linear",
-    "description": "add-pr-description-to-linear workflow template.",
-    "iconName": "example-icon"
+    "description": "add pr description to linear workflow template.",
+    "iconName": "nodejs",
+    "categories": ["Continuous integration", "JavaScript", "npm", "React", "Angular", "Vue"]
 }
